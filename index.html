@@ -1,0 +1,319 @@
+<!doctype html>
+<html>
+<head>
+<title>Fathom.js</title>
+<meta name="viewport" content="width=740" />
+<link href="http://fonts.googleapis.com/css?family=Vollkorn:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css" >
+<link href="http://fonts.googleapis.com/css?family=Quattrocento+Sans:regular" rel="stylesheet" type="text/css" >
+<link href="media/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body onload="prettyPrint()">
+
+<div id="container">
+	<img src="media/img/fox.png" class="fox" width="470" height="222" alt="Fox Illustration" />
+	
+	<h1>Fathom.js</h1>
+	<h2>Present JavaScript in its native environment.</h2>
+	
+	<p>If you're making a presentation <em>on JavaScript</em>, make it <em>in Javascript</em>.</p>
+	
+	<p>Write your slideshow in HTML, style it with CSS and control it with some jQuery-powered JavaScript. When you're done, Fathom.js even lets you sync the video of your presentation quickly and easily.</p>
+	
+	<p>Fathom.js comes with mouse, keyboard and scroll bar navigation built in and provides a simple API for creating your own custom interfaces.</p>
+
+	<ul class="buttons">
+		<li><a href="http://markdalgleish.com/presentations/jquerymobile" id="demobutton-top" target="_blank">View the Demo</a></li>
+		<li><a href="http://github.com/markdalgleish/fathom/raw/master/fathom.min.js" id="downloadbutton-top">Download the plugin</a></li>
+		<li><a href="http://github.com/markdalgleish/fathom" id="githubbutton-top">Contribute on GitHub</a></li>
+	</ul>
+	
+	<h3>Write your slides with simple markup.</h3>
+	
+	<div class="code">
+		<pre class="prettyprint">
+&lt;div id="presentation"&gt;
+
+  &lt;div class="slide"&gt;
+    &lt;h1&gt;My Presentation&lt;/h1&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="slide"&gt;
+    &lt;h2&gt;My Dot Points&lt;/h2&gt;
+    &lt;ul&gt;
+      &lt;li&gt;First dot point&lt;/li&gt;
+      &lt;li&gt;Second dot point&lt;/li&gt;
+      &lt;li&gt;Third dot point&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  
+&lt;/div&gt;
+		</pre>
+	</div>
+	
+	<h3>Bring your slides to life with Fathom.js.</h3>
+	
+	<p>Setup your presentation using the built in jQuery plugin:</p>
+	
+	<div class="code">
+		<pre class="prettyprint">
+$('#presentation').fathom();
+		</pre>
+	</div>
+	
+	<p>Alternatively, use the advanced setup for custom interfaces:</p>
+	
+	<div class="code">
+		<pre class="prettyprint">
+var fathom = new Fathom('#presentation');
+		</pre>
+	</div>
+	
+	<h3>Configure Fathom.js to suit your needs.</h3>
+		
+	<table>
+		<tr>
+			<th>displayMode</th>
+			<td>Choose between showing one slide at a time or showing all slides in a continuous line.<br />Options: <em>'single'</em> or <em>'multi'</em><br />Default: <em>'single'</em></td>
+		</tr>
+		<tr>
+			<th>margin</th>
+			<td>The amount of space in pixels between slides when using a 'displayMode' of 'multi'.<br />Default: <em>100</em></td>
+		</tr>
+		<tr>
+			<th>portable</th>
+			<td>Toggle between full screen and portable mode.<br />Default: <em>Set automatically based on whether the 'body' tag is the presentation's parent.</em></td>
+		</tr>
+		<tr>
+			<th>video</th>
+			<td>An object literal that defines a video to sync the presentation with.</td>
+		</tr>
+		<tr>
+			<th>timeline</th>
+			<td>An array of times for controlling the video. <em>For more details, <a href="#video">refer to the video sync section below</a>.</td>
+		</tr>
+		<tr>
+			<th>slideTagName</th>
+			<td>The tag used for your slides.<br />Default: <em>'div'</em></td>
+		</tr>
+		<tr>
+			<th>slideClass</th>
+			<td>The class used for your slides.<br />Default: <em>'slide'</em></td>
+		</tr>
+		<tr>
+			<th>activeClass</th>
+			<td>The class applied to the active slides.<br />Default: <em>'activeslide'</em></td>
+		</tr>
+		<tr>
+			<th>inactiveClass</th>
+			<td>The class applied to all inactive slides.<br />Default: <em>'inactiveslide'</em></td>
+		</tr>
+		<tr>
+			<th>portableTagName</th>
+			<td>If 'portable' is true, the tag used for your portable container.<br />Default: <em>'div'</em></td>
+		</tr>
+		<tr>
+			<th>portableClass</th>
+			<td>If 'portable' is true, the class used for your portable container.<br />Default: <em>'fathom-container'</em></td>
+		</tr>
+		<tr>
+			<th>onScrollInterval</th>
+			<td>The amount of time in milliseconds to wait between checking which slide is in the middle of the screen in order to activate slides while scrolling.<br />Default: <em>300</em></td>
+		</tr>
+		<tr>
+			<th>scrollLength</th>
+			<td>The length of the scroll animation in milliseconds.<br />Default: <em>600</em></td>
+		</tr>
+		<tr>
+			<th>onActivateSlide</th>
+			<td>Callback function which is called whenever a slide is activated. Inside the function, <em>this</em> refers to a jQuery-wrapped reference to the activated slide.</td>
+		</tr>
+			<th>onDeactivateSlide</th>
+			<td>Callback function which is called whenever a slide is deactivated. Inside the function, <em>this</em> refers to a jQuery-wrapped reference to the deactivated slide.</td>
+		</tr>
+	</table>
+	
+	<p>You can configure Fathom.js any of the following ways:</p>
+	
+	<div class="code">
+		<pre class="prettyprint">
+// When using the jQuery plugin:
+$('#presentation').fathom({
+  dislayMode: 'single',
+  slideTagName: 'section'
+});
+
+// When instantiating the class:
+var fathom = new Fathom('#presentation', {
+  onActivateSlide: function() {
+    console.log(this);
+  }
+});
+
+// Or, you can modify the global defaults:
+Fathom.setDefaults({
+  displayMode: 'multi',
+  margin: 200
+});
+		</pre>
+	</div>
+	
+	<h3 id="video">Sync your presentation with a video.</h3>
+	
+	<p>Have a video of your presentation? Syncing it with your original Fathom.js presentation couldn't be easier.</p>
+	
+	<div class="code">
+		<pre class="prettyprint">
+$('#presentation').fathom({
+  timeline: [ 0, 5, 20, 30, 40, 50, 60, 75, 90, 120, 155 ],
+  video: {
+    source: 'vimeo',
+    id: '16917950',
+    parent: '#vimeo',
+    autoplay: true
+  }
+});
+		</pre>
+	</div>
+	
+	<p>The <em>'video'</em> setting takes the following options:</p>
+	
+	<table>
+		<tr>
+			<th>source</th>
+			<td>The name of the video provider.<br /><em>n.b. Currently Fathom.js only supports Vimeo.</em></td>
+		</tr>
+		<tr>
+			<th>id</th>
+			<td>The ID of the video from the video's provider.</td>
+		</tr>
+		<tr>
+			<th>parent</th>
+			<td>The element to append the video element to.</td>
+		</tr>
+		<tr>
+			<th>autoplay</th>
+			<td>Boolean indicating whether to play the video automatically.</td>
+		</tr>
+	</table>
+	
+	<p>The <em>'timeline'</em> setting supports several different formats, all of which can be used interchangeably within the same timeline:</p>
+	
+	<div class="code">
+		<pre class="prettyprint">
+timeline: [ 0, 20, 30, 50, '1:00', '1:15' ]
+		</pre>
+	</div>
+	
+	<p>If you need more fine-grained control, Fathom.js even lets you specify which slide to activate using either the slide's index or a jQuery selector:</p>
+	
+	<div class="code">
+		<pre class="prettyprint">
+timeline: [
+  {
+    time: '0:00',
+    slide: 0
+  },
+  {
+    time: '0:20',
+    slide: '#slide1'
+  },
+  {
+    time: '0:30',
+    slide: 0
+  }
+]
+		</pre>
+	</div>
+	
+	<h3>Create your own custom interface.</h3>
+	
+	<p>Apart from styling your presentation however you like with CSS, you also have direct control over the state of the presentation.</p>
+	
+	<p>First, create an instance of the Fathom class like so:</p>
+	
+	
+	<div class="code">
+		<pre class="prettyprint">
+var fathom = new Fathom('#presentation');
+		</pre>
+	</div>
+	
+	<p>Now you can, for example, hook up some left and right navigation arrows:</p>
+	
+	<div class="code">
+		<pre class="prettyprint">
+$('#leftarrow').click(function(){
+  fathom.prevSlide();
+});
+
+$('#rightarrow').click(function(){
+  fathom.nextSlide();
+});
+		</pre>
+	</div>
+	
+	<p>Any instance of the Fathom class exposes the following methods:</p>
+	
+	<table>
+		<tr>
+			<th>nextSlide()</th>
+			<td>Activates the next slide and scrolls the window.</td>
+		</tr>
+		<tr>
+			<th>prevSlide()</th>
+			<td>Activates the previous slide and scrolls the window.</td>
+		</tr>
+		<tr>
+			<th>scrollToSlide($elem)</th>
+			<td>Activates the selected slide and scrolls the window.<br /> The <em>$elem</em> parameter should be a jQuery-wrapped reference to the slide.</td>
+		</tr>
+		<tr>
+			<th>activateSlide($elem)</th>
+			<td>Activates the selected slide <em>without</em> scrolling the window.<br /> The <em>$elem</em> parameter should be a jQuery-wrapped reference to the slide.</td>
+		</tr>
+	</table>
+	
+	<h3>Make a plugin with Fathom.js' events.</h3>
+	
+	<p>Any time a slide is activated or deactivated, the slide's element will trigger an event:</p>
+	
+	<table>
+		<tr>
+			<th>activateslide.fathom</th>
+			<td><em>this</em> refers to the slide being activated.</td>
+		</tr>
+		<tr>
+			<th>deactivateslide.fathom</th>
+			<td><em>this</em> refers to the slide being deactivated.</td>
+		</tr>
+	</table>
+
+	<hr />
+	
+	<a href="http://github.com/markdalgleish/fathom" id="github">Fork me on GitHub</a>
+	
+	<ul class="buttons">
+		<li><a href="http://markdalgleish.com/presentations/jquerymobile" id="demobutton-bottom" target="_blank">View the Demo</a></li>
+		<li><a href="http://github.com/markdalgleish/fathom/raw/master/fathom.min.js" id="downloadbutton-bottom">Download the plugin</a></li>
+		<li><a href="http://github.com/markdalgleish/fathom" id="githubbutton-bottom">Contribute on GitHub</a></li>
+	</ul>
+	
+	<small>&copy; 2011 <a href="http://www.markdalgleish.com" id="blog">Mark Dalgleish</a>. This plugin is released under the <a href="http://github.com/markdalgleish/fathom/blob/master/MIT-LICENSE.txt" id="license">MIT License</a> <br />Follow me on Twitter! <a href="http://www.twitter.com/markdalgleish" id="twitter">@markdalgleish</a></small>
+	
+</div>
+
+<script>
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script>
+try{
+var pageTracker = _gat._getTracker("UA-21855678-1");
+pageTracker._trackPageview();
+} catch(err) {}
+</script>
+<script src="media/js/script.js"></script>
+<script src="media/js/prettify.js"></script>
+
+</body>
+</html>
